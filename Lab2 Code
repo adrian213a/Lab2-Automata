@@ -1,0 +1,36 @@
+# Lab 2 - Final Term
+
+# Define transitions: {state: {input: next_state}}
+transitions = {
+    'A_A': {'0': 'A_A', '1': 'A_B'},
+    'A_B': {'0': 'B_A', '1': 'B_B'},
+    'B_A': {'0': 'C_C', '1': 'D_B'},
+    'B_B': {'0': 'D_B', '1': 'C_B'},
+    'C_C': {'0': 'D_C', '1': 'B_B'},
+    'D_B': {'0': 'B_A', '1': 'C_C'},
+    'D_C': {'0': 'B_B', '1': 'C_C'},
+    'E_C1': {'0': 'D_C', '1': 'E_C2'},
+    'E_C2': {'0': 'D_C', '1': 'E_C2'},
+}
+
+# Define outputs for each state
+outputs = {
+    'A_A': 'A', 'A_B': 'B', 'B_A': 'A', 'B_B': 'B',
+    'C_C': 'C', 'C_B': 'B', 'D_B': 'B', 'D_C': 'C',
+    'E_C1': 'C', 'E_C2': 'C'
+}
+
+def moore_process(input_str, start_state='A_A'):
+    state = start_state
+    result = outputs[state]  # initial state's output
+    for bit in input_str:
+        state = transitions[state][bit]
+        result += outputs[state]
+    return result
+
+# Test inputs
+inputs = ["00110", "11001", "1010110", "101111"]
+
+print("Converted Moore Machine Results:\n")
+for s in inputs:
+    print(f"Input: {s} -> Output: {moore_process(s)}")
